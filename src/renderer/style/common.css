@@ -1,0 +1,5 @@
+#app .el-tabs__content {
+  height: calc(100% - 10px);
+  padding: 5px;
+  overflow: auto;
+}
