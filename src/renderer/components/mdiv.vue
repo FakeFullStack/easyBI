@@ -3,12 +3,14 @@
     <div class="head" @mousedown="mousedown">{{ title }}</div>
     <div class="menu">
       <div style="float: right; margin: 0 7px" @click.stop="menuClick" v-show="isedit">
-        <span class="fas fa-ellipsis-v"></span>
+        <span class="fas fa-ellipsis-v" id="menu"></span>
       </div>
       <div style="float: right; margin: 0 3px"  @click.stop="expand" v-show="isedit">
-        <span class="fas" :class="{ 'fa-expand': !isexpand, 'fa-compress': isexpand }"></span>
+        <span class="fas" :class="{ 'fa-expand': !isexpand, 'fa-compress': isexpand }" id="menu"></span>
       </div>
-      <slot name="contextmenu"></slot>
+      <transition name="contextmenu">
+        <slot name="contextmenu"></slot>
+      </transition>
     </div>
     <slot name="container"></slot>
     <div class="resize" v-show="isedit" @mousedown="rmousedown"></div>
@@ -123,8 +125,8 @@ export default {
       // 不可越过左上角
       let top = this.$el.offsetTop
       let left = this.$el.offsetLeft
-      console.log(top, left)
-      console.log(this.posNew.top, this.posNew.left)
+      // console.log(top, left)
+      // console.log(this.posNew.top, this.posNew.left)
       if (top < 0) {
         this.posNew.top -= top
         this.$el.style.top = `${this.posNew.top}px`
@@ -219,6 +221,8 @@ export default {
       if (this.outline[2] !== undefined) {
         // 如果传入x,改成绝对定位
         this.$el.style.position = 'absolute'
+        this.pos.left = this.posNew.left = this.outline[2]
+        this.pos.top = this.posNew.top = this.outline[3] ? this.outline[3] : 0
       }
       if (this.isedit) {
         if (typeof (this.outline[0]) === 'number') {
@@ -312,15 +316,29 @@ export default {
     background: #f8f8f8;
     cursor: pointer;
   }
-  .menu span:hover {
+  #menu:hover {
     color: darkseagreen;
   }
   .contextmenu {
     position: absolute;
+    overflow: hidden;
     width: 20px;
-    top: 31px;
+    top: 32px;
     right: 0px;
     z-index: 10;
+  }
+  /* 过渡动画 */
+  .contextmenu-enter-active {
+    transition: width 0.5s ease-out
+  }
+  .contextmenu-leave-active {
+    transition: width 0.5s ease-in
+  }
+  .contextmenu-enter, .contextmenu-leave-to {
+    width: 0px;
+  }
+  .contextmenu-enter-to, .contextmenu-leave {
+    width: 20px;
   }
 
   .resize {
