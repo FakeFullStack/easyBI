@@ -24,7 +24,7 @@ export default {
       type: Array,
       required: true,
       validator: function (value) {
-        return value.length >= 4
+        return value.length > 1
       }
     },
     isedit: {
@@ -44,7 +44,7 @@ export default {
   data () {
     return {
       e: null,
-      option: cartesian2d.optionInit(this.isedit ? {data: this.data, type: this.type} : {data: this.data, title: this.name, type: this.type})
+      option: cartesian2d.optionInit({data: this.data, type: this.type})
     }
   },
   computed: {
@@ -120,7 +120,7 @@ export default {
     float: left;
     /* min-height: 100%; */
     /* min-width: 300px; */
-    height: 100%;
+    height: calc(100% - 30px);
     width: 100%
   }
 </style>

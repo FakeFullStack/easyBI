@@ -19,7 +19,8 @@ export default {
       type: Array,
       required: true,
       validator: function (value) {
-        return value.length >= 4
+        // console.log(value.length)
+        return value.length > 1
       }
     },
     isedit: {
@@ -33,7 +34,8 @@ export default {
         return (
           value === 'pie' ||
           value === 'bar' || value === 'ybar' || value === 'line' ||
-          value === 'card'
+          value === 'card' ||
+          value === 'test'
         )
       },
       required: true
