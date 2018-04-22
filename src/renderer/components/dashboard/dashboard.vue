@@ -32,5 +32,8 @@ export default {
 <style scoped>
   .dashboard {
     position: relative;
+    /* background: rebeccapurple; */
+    height: 100%;
+    /* padding: 0 5px 5px 0; */
   }
 </style>
