@@ -11,9 +11,7 @@ function optionInit (arg) {
     legend: {
       type: 'scroll',
       // orient: 'vertical',
-      top: '20px',
-      right: '10px',
-      bottom: '10px'
+      left: '10px'
     },
     dataset: {
       source: arg.hasOwnProperty('data') ? arg.data : [[]]
