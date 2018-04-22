@@ -10,10 +10,13 @@ function optionInit (arg) {
     },
     legend: {
       type: 'scroll',
-      orient: 'vertical',
-      top: '20px',
-      right: '10px',
-      bottom: '10px'
+      // orient: 'vertical',
+      // left: 'right'
+      left: '10px'
+      // top: '10px'
+      // top: '20px',
+      // right: '10px',
+      // bottom: '10px'
     },
     grid: {
       left: '10%'
