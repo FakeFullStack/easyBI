@@ -29,6 +29,7 @@ export default {
     return {
       activeTab: 'dashboard',
 
+      // 这里可以使用vuex
       visual: [{
         name: '🍕',
         type: 'pie',
@@ -45,21 +46,21 @@ export default {
       {
         name: '📊',
         type: 'bar',
-        outline: ['30%', '300px'],
-        data: [['食物', '🍕', '🍔', '🍟', '🌭'], ['数量', 35, 54, 13, 60]]
-      },
-      {
-        name: '📊',
-        type: 'ybar',
-        isedit: true,
-        outline: [300, 300, 50, 50],
+        outline: ['50%', '300px'],
         data: [['食物', '🍕', '🍔', '🍟', '🌭'], ['数量', 35, 54, 13, 60]]
       }]
     }
   },
   methods: {
     addChart () {
-      console.log('add_Chart')
+      this.visual.splice(3, 0,
+        {
+          name: '📊',
+          type: 'ybar',
+          isedit: true,
+          outline: [300, 300, 50, 50],
+          data: [['食物', '🍕', '🍔', '🍟', '🌭'], ['数量', 35, 54, 13, 60]]
+        })
     }
   },
   mounted () {
