@@ -2,6 +2,9 @@
   <mdiv :name="name" :outline="outline" :isedit="isedit" @mdiv="mdivHandle">
     <!-- 根据是否可以编辑对容器使用不同样式 -->
     <div ref="pie" slot="container" :class="{container: isedit, isnotedit: !isedit}"></div>
+    <div slot="contextmenu" class="contextmenu" v-show="menu">
+      <span class="fas fa-trash red"></span>
+    </div>
   </mdiv>
 </template>
 
@@ -41,7 +44,8 @@ export default {
   data () {
     return {
       e: null,
-      option: pie.optionInit({data: this.data})
+      option: pie.optionInit({data: this.data}),
+      menu: false
     }
   },
   computed: {
@@ -56,6 +60,8 @@ export default {
         this.$emit('mclick')
       } else if (arg === 'resize') {
         this.e.resize()
+      } else if (arg === 'menu') {
+        this.menu = !this.menu
       }
     }
   },
@@ -119,5 +125,9 @@ export default {
     /* min-width: 300px; */
     height: calc(100% - 30px);
     width: 100%
+  }
+  
+  .red:hover {
+    color: red;
   }
 </style>

@@ -2,6 +2,10 @@
   <mdiv :name="name" :outline="outline" :isedit="isedit" @mdiv="mdivHandle">
     <!-- 根据是否可以编辑对容器使用不同样式 -->
     <div ref="cartesian2d" slot="container" :class="{container: isedit, isnotedit: !isedit}"></div>
+    <div slot="contextmenu" class="contextmenu" v-show="menu">
+      <span class="fas fa-trash red" title="删除"></span>
+      <!-- <span class="fas fa-trash"></span> -->
+    </div>
   </mdiv>
 </template>
 
@@ -44,7 +48,8 @@ export default {
   data () {
     return {
       e: null,
-      option: cartesian2d.optionInit({data: this.data, type: this.type})
+      option: cartesian2d.optionInit({data: this.data, type: this.type}),
+      menu: false
     }
   },
   computed: {
@@ -67,6 +72,8 @@ export default {
         this.$emit('mclick')
       } else if (arg === 'resize') {
         this.e.resize()
+      } else if (arg === 'menu') {
+        this.menu = !this.menu
       }
     }
   },
@@ -122,5 +129,9 @@ export default {
     /* min-width: 300px; */
     height: calc(100% - 30px);
     width: 100%
+  }
+
+  .red:hover {
+    color: red;
   }
 </style>
