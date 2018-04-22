@@ -40,7 +40,7 @@ export default {
         name: '📈',
         type: 'line',
         isedit: true,
-        outline: [300, 500],
+        outline: [300, 330],
         data: [['食物', '🍕', '🍔', '🍟', '🌭'], ['数量', 35, 54, 13, 60]]
       },
       {
