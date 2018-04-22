@@ -1,11 +1,11 @@
 <template>
   <div class="mdiv">
-    <div class="head" v-show="isedit" @mousedown="mousedown">{{ title }}</div>
-    <div class="menu" v-show="isedit">
-      <div style="float: right; margin: 0 7px" @click.stop="menuClick">
+    <div class="head" @mousedown="mousedown">{{ title }}</div>
+    <div class="menu">
+      <div style="float: right; margin: 0 7px" @click.stop="menuClick" v-show="isedit">
         <span class="fas fa-ellipsis-v"></span>
       </div>
-      <div style="float: right; margin: 0 3px"  @click.stop="expand">
+      <div style="float: right; margin: 0 3px"  @click.stop="expand" v-show="isedit">
         <span class="fas" :class="{ 'fa-expand': !isexpand, 'fa-compress': isexpand }"></span>
       </div>
       <slot name="contextmenu"></slot>
@@ -23,14 +23,15 @@ export default {
       type: String,
       required: true
     },
-    // [X, Y, W, H]
+    // [X, Y, [W, H]]
     // 要么都数字,要么都字符串
-    // 最好改成 [W H [X Y]]
     outline: {
       type: Array,
       required: true,
       validator: function (value) {
-        return (
+        // console.log(value.length)
+        return (value.length > 1) &&
+        (
           (function () {
             for (let index = 0; index < value.length; index++) {
               if (typeof (value[index]) !== 'string') {
@@ -59,8 +60,8 @@ export default {
     return {
       isexpand: false,
       // 空间位置相关
-      pos: {},
-      posNew: {},
+      pos: {top: 0, left: 0, height: 0, width: 0},
+      posNew: {top: 0, left: 0, height: 0, width: 0},
       // DIV相关临时变量
       down: null,
       room: {top: 0, left: 0, bottom: 0, right: 0, height: 0, width: 0}
@@ -70,10 +71,10 @@ export default {
     expand () {
       this.isexpand = !this.isexpand
       if (this.isexpand) { // isexpand === true 变全屏
-        this.$el.style.left = '1px'
-        this.$el.style.top = '1px'
-        this.$el.style.height = 'calc(100% - 2px)'
-        this.$el.style.width = 'calc(100% - 2px)'
+        this.$el.style.left = ''
+        this.$el.style.top = ''
+        this.$el.style.height = 'calc(100% - 4px)'
+        this.$el.style.width = 'calc(100% - 4px)'
       } else {
         this.$el.style.left = this.pos.left + 'px'
         this.$el.style.top = this.pos.top + 'px'
@@ -101,43 +102,37 @@ export default {
     },
     // 移动DIV
     mousedown (down) {
-      this.down = down
-      document.onmousemove = this.mousemove
-      document.onmouseup = this.mouseup
+      if (this.isedit) {
+        this.down = down
+        document.onmousemove = this.mousemove
+        document.onmouseup = this.mouseup
+      }
     },
     mousemove (move) {
       // move.client 当前鼠标位置
       // down.client 按下鼠标位置
       // down.clientY - down.clientY 位移
       let diff = {x: move.clientX - this.down.clientX, y: move.clientY - this.down.clientY}
+      // console.log(diff)
       this.posNew.left = this.pos.left + diff.x
       this.posNew.top = this.pos.top + diff.y
       this.$el.style.left = this.posNew.left + 'px'
       this.$el.style.top = this.posNew.top + 'px'
     },
     mouseup () {
-      let parent = this.$el.parentElement.getBoundingClientRect()
-      let self = this.$el.getBoundingClientRect()
-      let diff = {
-        left: self.left - parent.left - 2,
-        top: self.top - parent.top - 2,
-        right: parent.right - self.right - 2,
-        bottom: parent.bottom - self.bottom - 2
+      // 不可越过左上角
+      let top = this.$el.offsetTop
+      let left = this.$el.offsetLeft
+      console.log(top, left)
+      console.log(this.posNew.top, this.posNew.left)
+      if (top < 0) {
+        this.posNew.top -= top
+        this.$el.style.top = `${this.posNew.top}px`
       }
-      if (diff.left < 0) {
-        this.posNew.left -= diff.left
+      if (left < 0) {
+        this.posNew.left -= left
+        this.$el.style.left = `${this.posNew.left}px`
       }
-      if (diff.top < 0) {
-        this.posNew.top -= diff.top
-      }
-      if (diff.right < 0) {
-        this.posNew.left += diff.right
-      }
-      if (diff.bottom < 0) {
-        this.posNew.top += diff.bottom
-      }
-      this.$el.style.left = this.posNew.left + 'px'
-      this.$el.style.top = this.posNew.top + 'px'
       // 更新位置
       Object.assign(this.pos, this.posNew)
       document.onmousemove = null
@@ -184,20 +179,29 @@ export default {
   },
   watch: {
     outline () {
+      if (this.outline[2] !== undefined) {
+        this.$el.style.position = 'absolute'
+      } else {
+        this.$el.style.position = 'relative'
+      }
       if (typeof (this.outline[0]) === 'number') {
-        this.outlineUpdate()
+        // this.outlineUpdate()
         this.pos = {
           left: this.outline[0],
           top: this.outline[1],
           height: this.outline[2],
           width: this.outline[3]
         }
+        this.$el.style.height = this.outline[1] + 'px'
+        this.$el.style.width = this.outline[0] + 'px'
+        this.$el.style.left = this.outline[2] + 'px'
+        this.$el.style.top = this.outline[3] + 'px'
         this.$emit('mdiv', 'resize')
       } else if (typeof (this.outline[0]) === 'string') {
-        this.$el.style.height = this.outline[3]
-        this.$el.style.width = this.outline[2]
-        this.$el.style.left = this.outline[0]
-        this.$el.style.top = this.outline[1]
+        this.$el.style.height = this.outline[1]
+        this.$el.style.width = this.outline[0]
+        this.$el.style.left = this.outline[2]
+        this.$el.style.top = this.outline[3]
         this.$emit('mdiv', 'resize')
       } else {
         console.error('outline 参数错误')
@@ -211,20 +215,25 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
+      window.a = this
+      if (this.outline[2] !== undefined) {
+        // 如果传入x,改成绝对定位
+        this.$el.style.position = 'absolute'
+      }
       if (this.isedit) {
         if (typeof (this.outline[0]) === 'number') {
-          this.$el.style.left = this.outline[0] + 'px' // x
-          this.$el.style.top = this.outline[1] + 'px' // y
-          this.$el.style.width = this.outline[2] + 'px' // w
-          this.$el.style.height = this.outline[3] + 'px' // h
-          this.pos['left'] = this.outline[0]
-          this.pos['top'] = this.outline[1]
-          this.pos['width'] = this.outline[2]
-          this.pos['height'] = this.outline[3]
-          this.posNew['left'] = this.outline[0]
-          this.posNew['top'] = this.outline[1]
-          this.posNew['width'] = this.outline[2]
-          this.posNew['height'] = this.outline[3]
+          this.$el.style.width = this.outline[0] + 'px' // w
+          this.$el.style.height = this.outline[1] + 'px' // h
+          this.$el.style.left = this.outline[2] + 'px' // x
+          this.$el.style.top = this.outline[3] + 'px' // y
+          // this.pos['left'] = this.$el.offsetLeft
+          // this.pos['top'] = this.$el.offsetTop
+          this.pos['width'] = this.outline[0]
+          this.pos['height'] = this.outline[1]
+          // this.posNew['left'] = this.pos.left
+          // this.posNew['top'] = this.pos.top
+          this.posNew['width'] = this.pos.width
+          this.posNew['height'] = this.pos.height
         } else {
           console.error('可编辑状态下,outline只支持数字参数')
         }
@@ -246,10 +255,10 @@ export default {
         } else {
           console.error('参数类型错误(string, number)')
         }
-        this.$el.style.left = outline[0] // x
-        this.$el.style.top = outline[1] // y
-        this.$el.style.width = outline[2] // w
-        this.$el.style.height = outline[3] // h
+        this.$el.style.width = outline[0] // w
+        this.$el.style.height = outline[1] // h
+        this.$el.style.left = outline[2] // x
+        this.$el.style.top = outline[3] // y
       }
     })
   }
@@ -268,6 +277,7 @@ export default {
     border-bottom-right-radius: 0px;
     box-shadow: 2px 2px 6px #646464;
     user-select: none;
+    margin: 0 5px 5px 0;
   }
 
   .head {
