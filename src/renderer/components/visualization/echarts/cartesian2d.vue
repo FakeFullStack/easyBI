@@ -3,7 +3,7 @@
     <!-- 根据是否可以编辑对容器使用不同样式 -->
     <div ref="cartesian2d" slot="container" :class="{container: isedit, isnotedit: !isedit}"></div>
     <div slot="contextmenu" class="contextmenu" v-show="menu">
-      <span class="fas fa-trash red" title="删除"></span>
+      <span class="fas fa-trash red" title="删除" @click="delClick"></span>
       <!-- <span class="fas fa-trash"></span> -->
     </div>
   </mdiv>
@@ -75,6 +75,10 @@ export default {
       } else if (arg === 'menu') {
         this.menu = !this.menu
       }
+    },
+    delClick () {
+      // 这里可以使用vuex
+      console.log('del vuex')
     }
   },
   watch: {
