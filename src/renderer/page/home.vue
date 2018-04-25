@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { remote } from 'electron'
+// import { remote } from 'electron'
 
 import dashboard from '../components/dashboard/dashboard'
 
@@ -64,20 +64,20 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick(() => {
-      let menu = this.menu
-      let that = this
-      menu = new remote.Menu()
-      menu.append(new remote.MenuItem({
-        label: '📊新增图表',
-        click () { that.addChart() }
-      }))
+    // this.$nextTick(() => {
+    //   let menu = this.menu
+    //   let that = this
+    //   menu = new remote.Menu()
+    //   menu.append(new remote.MenuItem({
+    //     label: '📊新增图表',
+    //     click () { that.addChart() }
+    //   }))
 
-      window.addEventListener('contextmenu', e => {
-        e.preventDefault()
-        menu.popup(remote.getCurrentWindow())
-      }, false)
-    })
+    //   window.addEventListener('contextmenu', e => {
+    //     e.preventDefault()
+    //     menu.popup(remote.getCurrentWindow())
+    //   }, false)
+    // })
   }
 }
 </script>

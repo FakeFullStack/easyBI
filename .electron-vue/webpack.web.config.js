@@ -134,6 +134,15 @@ if (process.env.NODE_ENV === 'production') {
       minimize: true
     })
   )
+} else {
+  webConfig = {...webConfig, devServer: {
+    clientLogLevel: 'warning',
+    hot: true,
+    contentBase: false,
+    compress: true,
+    open: true}
+  }
 }
+
 
 module.exports = webConfig

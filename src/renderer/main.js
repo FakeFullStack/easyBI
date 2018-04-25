@@ -14,8 +14,9 @@ import './style/common.css'
 
 if (!process.env.IS_WEB) {
   Vue.use(require('vue-electron'))
-  Vue.use(ElementUI)
 }
+Vue.use(ElementUI)
+
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 
