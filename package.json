@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "author": "hanfengcan <xiemmin@outlook.com>",
   "description": "A easy BI project",
-  "license": null,
+  "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
