@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "author": "hanfengcan <xiemmin@outlook.com>",
   "description": "A easy BI project",
-  "license": null,
+  "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
@@ -19,7 +19,8 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "test": "npm run unit && npm run e2e",
     "unit": "karma start test/unit/karma.conf.js",
-    "postinstall": "npm run lint:fix"
+    "postinstall": "npm run lint:fix",
+    "dev:web": "cross-env webpack-dev-server --inline --progress --config .electron-vue/webpack.web.config.js"
   },
   "build": {
     "productName": "easybi",
