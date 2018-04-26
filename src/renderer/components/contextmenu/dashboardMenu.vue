@@ -1,9 +1,9 @@
 <template>
   <div class="dashboardmenu">
-    <div class="addChart">新增图表</div>
+    <div class="addChart" @click="click(1)">新增图表</div>
     <hr>
-    <div class="placeholder">占位符</div>
-    <div class="placeholder">占位符</div>
+    <div class="placeholder" @click="click(2)">占位符</div>
+    <div class="placeholder" @click="click(3)">占位符</div>
   </div>
 </template>
 
@@ -11,6 +11,11 @@
 export default {
   data () {
     return {}
+  },
+  methods: {
+    click (arg) {
+      console.log('contextmenu: ', arg)
+    }
   }
 }
 </script>
