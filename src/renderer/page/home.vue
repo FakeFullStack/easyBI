@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" @click="contextmenuShow=false">
     <div style="height: 30px;"></div>
     <el-tabs v-model="activeTab" type="border-card" tabPosition="left" style="height: calc(100% - 32px);">
       <el-tab-pane name="dashboard">
@@ -13,17 +13,19 @@
         <span slot="label"><i class="fas fa-table fa-lg" title="源数据"></i></span>
       </el-tab-pane>
     </el-tabs>
+    <dashboardmenu class="contextmenu" :style="contextmenuStyle" v-show="contextmenuShow"></dashboardmenu>
   </div>
 </template>
 
 <script>
-// import { remote } from 'electron'
-
 import dashboard from '../components/dashboard/dashboard'
+
+import dashboardmenu from '../components/contextmenu/dashboardmenu'
 
 export default {
   components: {
-    dashboard
+    dashboard,
+    dashboardmenu
   },
   data () {
     return {
@@ -48,7 +50,9 @@ export default {
         type: 'bar',
         outline: ['50%', '300px'],
         data: [['食物', '🍕', '🍔', '🍟', '🌭'], ['数量', 35, 54, 13, 60]]
-      }]
+      }],
+      contextmenuStyle: {},
+      contextmenuShow: false
     }
   },
   methods: {
@@ -64,20 +68,20 @@ export default {
     }
   },
   mounted () {
-    // this.$nextTick(() => {
-    //   let menu = this.menu
-    //   let that = this
-    //   menu = new remote.Menu()
-    //   menu.append(new remote.MenuItem({
-    //     label: '📊新增图表',
-    //     click () { that.addChart() }
-    //   }))
-
-    //   window.addEventListener('contextmenu', e => {
-    //     e.preventDefault()
-    //     menu.popup(remote.getCurrentWindow())
-    //   }, false)
-    // })
+    this.$nextTick(() => {
+      // let that = this.contextmenuStyle
+      let that = this
+      window.addEventListener('contextmenu', function (e) {
+        if (e.target.className === 'dashboard') {
+          that.contextmenuShow = true
+          that.contextmenuStyle = {
+            top: `${e.pageY}px`,
+            left: `${e.pageX}px`
+          }
+          e.preventDefault()
+        }
+      })
+    })
   }
 }
 </script>
@@ -86,6 +90,15 @@ export default {
   .home {
     /* height: calc(100% - 2px); */
     /* border: 1px solid #e0e0e0; */
+    position: relative;
     height: 100%;
+  }
+
+  .contextmenu {
+    position: absolute;
+    top: 100px;
+    left: 400px;
+    /* cursor:context-menu; */
+    user-select: none;
   }
 </style>
