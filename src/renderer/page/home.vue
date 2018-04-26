@@ -64,24 +64,6 @@ export default {
     }
   },
   mounted () {
-<<<<<<< HEAD
-    this.$nextTick(() => {
-      // let menu = this.menu
-      // let that = this
-      // menu = new remote.Menu()
-      // menu.append(new remote.MenuItem({
-      //   label: '📊新增图表',
-      //   click () { that.addChart() }
-      // }))
-
-      // window.addEventListener('contextmenu', e => {
-      //   if (e.target.localName !== 'canvas') {
-      //     e.preventDefault()
-      //     // menu.popup(remote.getCurrentWindow())
-      //   }
-      // }, false)
-    })
-=======
     // this.$nextTick(() => {
     //   let menu = this.menu
     //   let that = this
@@ -96,7 +78,6 @@ export default {
     //     menu.popup(remote.getCurrentWindow())
     //   }, false)
     // })
->>>>>>> 7c60f90aac494915abb1fe40ce38c09e460032dd
   }
 }
 </script>
