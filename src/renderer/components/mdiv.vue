@@ -73,11 +73,13 @@ export default {
     expand () {
       this.isexpand = !this.isexpand
       if (this.isexpand) { // isexpand === true 变全屏
-        this.$el.style.left = ''
-        this.$el.style.top = ''
+        this.$el.style.position = 'absolute'
+        this.$el.style.left = '0px'
+        this.$el.style.top = '0px'
         this.$el.style.height = 'calc(100% - 4px)'
         this.$el.style.width = 'calc(100% - 4px)'
       } else {
+        this.$el.style.position = ''
         this.$el.style.left = this.pos.left + 'px'
         this.$el.style.top = this.pos.top + 'px'
         this.$el.style.width = this.pos.width + 'px'
@@ -104,7 +106,7 @@ export default {
     },
     // 移动DIV
     mousedown (down) {
-      if (this.isedit) {
+      if (this.isedit && !this.isexpand) {
         this.down = down
         document.onmousemove = this.mousemove
         document.onmouseup = this.mouseup
