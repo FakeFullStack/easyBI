@@ -4,7 +4,7 @@
     <el-tabs v-model="activeTab" type="border-card" tabPosition="left" style="height: calc(100% - 32px);">
       <el-tab-pane name="dashboard">
         <span slot="label"><i class="fas fa-chart-bar fa-lg" title="仪表盘"></i></span>
-          <dashboard :visual="visuals" ref="dashboard">
+          <dashboard :visual="visuals" ref="dashboard" @dashboard="dashboard">
             <mcontextmenu v-show="contextmenuShow" :x="menuX" :y="menuY" :menus="menus" @contextmenu="contextmenuEvent"></mcontextmenu>
           </dashboard>
         <!-- <visualization class="container"
@@ -54,6 +54,13 @@ export default {
           outline: [300, 300, 50, 50],
           data: [['食物', '🍕', '🍔', '🍟', '🌭'], ['数量', 35, 54, 13, 60]]
         }])
+      }
+    },
+    dashboard (arg) {
+      if (arg[0] === 'mdel') {
+        this.$store.commit('removeChart', {
+          index: arg[1]
+        })
       }
     }
   },

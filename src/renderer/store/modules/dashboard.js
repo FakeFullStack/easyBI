@@ -15,6 +15,7 @@ const mutations = {
   },
   removeChart (state, payload) {
     let start = payload.index
+    // console.log(start)
     state.charts.splice(start, 1)
   }
 }

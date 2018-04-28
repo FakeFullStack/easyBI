@@ -331,10 +331,10 @@ export default {
   }
   /* 过渡动画 */
   .contextmenu-enter-active {
-    transition: width 0.5s ease-out;
+    transition: width 0.2s ease-out;
   }
   .contextmenu-leave-active {
-    transition: width 0.5s ease-in;
+    transition: width 0.2s ease-in;
   }
   .contextmenu-enter, .contextmenu-leave-to {
     width: 0px;

@@ -20,6 +20,10 @@ export default {
     mdiv
   },
   props: {
+    index: {
+      type: Number,
+      required: true
+    },
     name: {
       type: String,
       default: null
@@ -69,7 +73,7 @@ export default {
     mdivHandle (arg) {
       // console.log(arg)
       if (arg === 'click') {
-        this.$emit('mclick')
+        this.$emit('mdiv', 'mclick')
       } else if (arg === 'resize') {
         this.e.resize()
       } else if (arg === 'menu') {
@@ -78,7 +82,7 @@ export default {
     },
     delClick () {
       // 这里可以使用vuex
-      console.log('del vuex')
+      this.$emit('mdiv', 'mdel', this.index)
     }
   },
   watch: {
@@ -95,6 +99,9 @@ export default {
           source: this.data
         }
       })
+    },
+    type () {
+      console.log(this.type)
     }
   },
   mounted () {
@@ -121,6 +128,8 @@ export default {
   beforeDestroy () {
     this.e.dispose()
     this.e = null
+    this.option = null
+    this.menu = false
   }
 }
 </script>

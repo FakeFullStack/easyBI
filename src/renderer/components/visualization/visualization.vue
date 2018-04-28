@@ -1,7 +1,7 @@
 <template>
   <component :is="typename" class="background"
-  :name="name" :outline="outline" :isedit="isedit"
-  :data="data" :type="type"></component>
+  :index="index" :name="name" :outline="outline" :isedit="isedit"
+  :data="data" :type="type" @mdiv="mdiv"></component>
 </template>
 
 <script>
@@ -11,6 +11,10 @@ import card from './card/card'
 
 export default {
   props: {
+    index: {
+      type: Number,
+      required: true
+    },
     name: {
       type: String,
       default: null
@@ -50,6 +54,16 @@ export default {
     cartesian2d,
     card
   },
+  data () {
+    return {
+      random: null
+    }
+  },
+  methods: {
+    mdiv (...arg) {
+      this.$emit('mdiv', arg)
+    }
+  },
   computed: {
     typename (value) {
       // 重命名
@@ -65,7 +79,12 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
+      this.random = Math.floor(Math.random() * 100)
+      console.log('visualization ', this.random, this.type)
     })
+  },
+  beforeDestroy () {
+    console.log('beforeDestroy ', this.random, this.type)
   }
 }
 </script>

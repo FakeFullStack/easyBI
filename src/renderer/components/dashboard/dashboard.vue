@@ -6,8 +6,9 @@
     > -->
     <transition-group name="visualization">
       <template v-for="(v, index) in visual">
-        <visualization :key="index" :name="v.name" :outline="v.outline" :isedit="v.isedit"
-        :type="v.type" :data="v.data"></visualization>
+        <visualization :key="index" :index="index" :name="v.name" :outline="v.outline" :isedit="v.isedit"
+        :type="v.type" :data="v.data"
+        @mdiv="mdiv"></visualization>
       </template>
     </transition-group>
     <!-- insert a element, such as contextmenu -->
@@ -35,26 +36,9 @@ export default {
     }
   },
   methods: {
-    // tbeforeEnter (el) {
-    //   el.style.opacity = 0
-    // },
-    // enter (el, done) {
-    //   el.style.transition = 'opacity 1s ease-out'
-    //   done()
-    // },
-    // tafterEnter (el) {
-    //   // el.style.opacity = 1
-    // },
-    // tbeforeLeave (el) {
-
-    // },
-    // leave (el, done) {
-    //   el.style.transition = 'opacity 1s ease-in'
-    //   done()
-    // },
-    // tafterLeave (el) {
-    //   el.style.opacity = 0
-    // }
+    mdiv (arg) {
+      this.$emit('dashboard', arg)
+    }
   }
 }
 </script>
