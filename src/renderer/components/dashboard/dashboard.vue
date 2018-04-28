@@ -10,6 +10,8 @@
         :type="v.type" :data="v.data"></visualization>
       </template>
     </transition-group>
+    <!-- insert a element, such as contextmenu -->
+    <slot></slot>
   </div>
 </template>
 

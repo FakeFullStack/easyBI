@@ -1,9 +1,11 @@
 <template>
   <div class="contextmenu" :style="contextmenu" ref="contextmenu">
-    <div class="addChart" @mouseup="click(1)">新增图表</div>
-    <hr>
-    <div class="placeholder" @mouseup="click(2)">占位符</div>
-    <div class="placeholder" @mouseup="click(3)">占位符</div>
+    <template v-for="(e, index) in menus">
+      <hr v-if="e.label === 'hr'" :key="index">
+      <div v-else :class="FontAwesomeName(e.FontAwesomeName)" class="fas" :key="index"  @mouseup="click(e.event)">
+        <span>&nbsp;{{e.label}}</span>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -17,6 +19,11 @@ export default {
     },
     y: {
       type: Number,
+      required: true
+    },
+    menus: {
+      // [{label, FontAwesomeName, event}]
+      type: Array,
       required: true
     }
   },
@@ -51,8 +58,11 @@ export default {
     }
   },
   methods: {
+    FontAwesomeName (name) {
+      return `fa-${name}`
+    },
     click (arg) {
-      console.log('contextmenu: ', arg)
+      this.$emit('contextmenu', arg)
     }
   }
 }
@@ -71,8 +81,15 @@ export default {
   }
 
   .contextmenu>div {
+    display: block;
+    height: 24px;
+    line-height: 24px;
     margin: 2px 0;
     padding-left: 10px;
+  }
+
+  div>span {
+    font-weight: normal;
   }
 
   .contextmenu>hr {
@@ -87,19 +104,5 @@ export default {
 
   .contextmenu>div:hover {
     background: #f0f0f0;
-  }
-
-  .addChart::before {
-    margin-right: 4px;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 600;
-    content: "\f055";
-  }
-
-  .placeholder::before {
-    margin-right: 4px;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 600;
-    content: "\f118";
   }
 </style>
