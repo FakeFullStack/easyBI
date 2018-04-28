@@ -45,9 +45,14 @@ export default {
     }
   },
   methods: {
+    random () {
+      let d = new Date()
+      return d.getTime() + '.' + Math.floor(Math.random() * 1000)
+    },
     contextmenuEvent (arg) {
       if (arg === 1) {
         this.$store.commit('addChart', [{
+          index: this.random(),
           name: '📊',
           type: 'ybar',
           isedit: true,
@@ -74,12 +79,14 @@ export default {
     this.$nextTick(() => {
       let that = this
       this.$store.commit('addChart', [{
+        index: this.random(),
         name: '🍕',
         type: 'pie',
         outline: [300, 300],
         data: [['🍕', '🍔', '🍟', '🌭'], [35, 54, 13, 60]]
       },
       {
+        index: this.random(),
         name: '📈',
         type: 'line',
         isedit: true,
@@ -87,6 +94,7 @@ export default {
         data: [['食物', '🍕', '🍔', '🍟', '🌭'], ['数量', 35, 54, 13, 60]]
       },
       {
+        index: this.random(),
         name: '📊',
         type: 'bar',
         outline: ['50%', '300px'],

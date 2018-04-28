@@ -6,7 +6,7 @@
     > -->
     <transition-group name="visualization">
       <template v-for="(v, index) in visual">
-        <visualization :key="index" :index="index" :name="v.name" :outline="v.outline" :isedit="v.isedit"
+        <visualization :key="v.index" :index="index" :name="v.name" :outline="v.outline" :isedit="v.isedit"
         :type="v.type" :data="v.data"
         @mdiv="mdiv"></visualization>
       </template>
