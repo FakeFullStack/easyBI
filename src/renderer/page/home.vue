@@ -4,7 +4,7 @@
     <el-tabs v-model="activeTab" type="border-card" tabPosition="left" style="height: calc(100% - 32px);">
       <el-tab-pane name="dashboard">
         <span slot="label"><i class="fas fa-chart-bar fa-lg" title="仪表盘"></i></span>
-          <dashboard :visual="visual" ref="dashboard">
+          <dashboard :visual="visuals" ref="dashboard">
             <mcontextmenu v-show="contextmenuShow" :x="menuX" :y="menuY" :menus="menus" @contextmenu="contextmenuEvent"></mcontextmenu>
           </dashboard>
         <!-- <visualization class="container"
@@ -32,8 +32,41 @@ export default {
     return {
       activeTab: 'dashboard',
 
-      // 这里可以使用vuex
-      visual: [{
+      menus: [
+        {label: '增加图表', FontAwesomeName: 'plus-circle', event: 1},
+        {label: 'hr'},
+        {label: '测试', FontAwesomeName: 'plus-circle', event: 2},
+        {label: '测试', FontAwesomeName: 'plus-circle', event: 3}
+      ],
+      menuX: 0,
+      menuY: 0,
+      contextmenuShow: true,
+      container: null
+    }
+  },
+  methods: {
+    contextmenuEvent (arg) {
+      if (arg === 1) {
+        this.$store.commit('addChart', [{
+          name: '📊',
+          type: 'ybar',
+          isedit: true,
+          outline: [300, 300, 50, 50],
+          data: [['食物', '🍕', '🍔', '🍟', '🌭'], ['数量', 35, 54, 13, 60]]
+        }])
+      }
+    }
+  },
+  computed: {
+    visuals () {
+      return this.$store.state.dashboard.charts
+    }
+  },
+  mounted () {
+    this.contextmenuShow = false
+    this.$nextTick(() => {
+      let that = this
+      this.$store.commit('addChart', [{
         name: '🍕',
         type: 'pie',
         outline: [300, 300],
@@ -51,38 +84,8 @@ export default {
         type: 'bar',
         outline: ['50%', '300px'],
         data: [['食物', '🍕', '🍔', '🍟', '🌭'], ['数量', 35, 54, 13, 60]]
-      }],
+      }])
 
-      menus: [
-        {label: '增加图表', FontAwesomeName: 'plus-circle', event: 1},
-        {label: 'hr'},
-        {label: '测试', FontAwesomeName: 'plus-circle', event: 2},
-        {label: '测试', FontAwesomeName: 'plus-circle', event: 3}
-      ],
-      menuX: 0,
-      menuY: 0,
-      contextmenuShow: true,
-      container: null
-    }
-  },
-  methods: {
-    contextmenuEvent (arg) {
-      if (arg === 1) {
-        this.visual.splice(3, 0,
-          {
-            name: '📊',
-            type: 'ybar',
-            isedit: true,
-            outline: [300, 300, 50, 50],
-            data: [['食物', '🍕', '🍔', '🍟', '🌭'], ['数量', 35, 54, 13, 60]]
-          })
-      }
-    }
-  },
-  mounted () {
-    this.contextmenuShow = false
-    this.$nextTick(() => {
-      let that = this
       window.addEventListener('contextmenu', function (e) {
         // console.log(e)
         if (that.contextmenuShow) {
