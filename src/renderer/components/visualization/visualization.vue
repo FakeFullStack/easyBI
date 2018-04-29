@@ -79,12 +79,9 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.random = Math.floor(Math.random() * 100)
-      console.log('visualization ', this.random, this.type)
     })
   },
   beforeDestroy () {
-    console.log('beforeDestroy ', this.random, this.type)
   }
 }
 </script>

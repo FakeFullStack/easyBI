@@ -99,9 +99,6 @@ export default {
           source: this.data
         }
       })
-    },
-    type () {
-      console.log(this.type)
     }
   },
   mounted () {

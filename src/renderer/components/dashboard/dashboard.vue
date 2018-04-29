@@ -32,13 +32,29 @@ export default {
   },
   data () {
     return {
-
+      el: null
     }
   },
   methods: {
     mdiv (arg) {
       this.$emit('dashboard', arg)
     }
+  },
+  computed: {
+    // style: function () {
+    //   console.log(this.visual)
+    //   if (this.el) {
+    //     this.el.style.height = this.el.scrollHeight + 'px'
+    //     console.log(this.el.scrollHeight, this.el.scrollWidth)
+    //   }
+    //   return ''
+    // }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.el = this.$el
+      console.log(this.el)
+    })
   }
 }
 </script>
@@ -48,15 +64,19 @@ export default {
     position: relative;
     /* background: rebeccapurple; */
     height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 5px 5px 0 5px;
+    /* background-color: rgb(145, 145, 145); */
     /* padding: 0 5px 5px 0; */
   }
 
   /* 过渡 */
   .visualization-enter-active {
-    transition: opacity 0.5s ease-out
+    transition: opacity 0.5s linear 0.5s;
   }
   .visualization-leave-active {
-    transition: opacity 0.5s ease-in;
+    transition: opacity 0.5s linear;
   }
   .visualization-enter, .visualization-leave-to {
     opacity: 0;
