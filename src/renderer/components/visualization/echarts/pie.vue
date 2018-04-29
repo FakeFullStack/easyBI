@@ -3,7 +3,7 @@
     <!-- 根据是否可以编辑对容器使用不同样式 -->
     <div ref="pie" slot="container" :class="{container: isedit, isnotedit: !isedit}"></div>
     <div slot="contextmenu" class="contextmenu" v-show="menu">
-      <span class="fas fa-trash red"></span>
+      <span class="fas fa-trash red" title="删除" @click="delClick"></span>
     </div>
   </mdiv>
 </template>
@@ -63,6 +63,10 @@ export default {
       } else if (arg === 'menu') {
         this.menu = !this.menu
       }
+    },
+    delClick () {
+      // 这里可以使用vuex
+      this.$emit('mdiv', 'mdel', this.index)
     }
   },
   watch: {
@@ -113,6 +117,8 @@ export default {
   beforeDestroy () {
     this.e.dispose()
     this.e = null
+    this.option = null
+    this.menu = false
   }
 }
 </script>
