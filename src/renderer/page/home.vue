@@ -7,6 +7,9 @@
           <dashboard :visual="visuals" ref="dashboard" @dashboard="dashboard">
             <mcontextmenu v-show="contextmenuShow" :x="menuX" :y="menuY" :menus="menus" @contextmenu="contextmenuEvent"></mcontextmenu>
           </dashboard>
+          <el-dialog title="新增图表" :visible.sync="newCharts" width="80%">
+            <newCharts @addChart="newCharts=false"></newCharts>
+          </el-dialog>
         <!-- <visualization class="container"
         type="pie" vstyle="height: 200px" :data="[['测试', '一下'], [12, 33]]">
         </visualization> -->
@@ -20,17 +23,21 @@
 
 <script>
 import dashboard from '../components/dashboard/dashboard'
+import newCharts from '../page/newCharts'
 
 import mcontextmenu from '../components/contextmenu/mcontextmenu'
 
 export default {
   components: {
     dashboard,
+    newCharts,
     mcontextmenu
   },
   data () {
     return {
       activeTab: 'dashboard',
+
+      newCharts: false,
 
       menus: [
         {label: '增加图表', FontAwesomeName: 'plus-circle', event: 1},
@@ -41,24 +48,16 @@ export default {
       menuX: 0,
       menuY: 0,
       contextmenuShow: true,
-      container: null
+      container: null,
+
+      example: []
     }
   },
   methods: {
-    random () {
-      let d = new Date()
-      return d.getTime() + '.' + Math.floor(Math.random() * 1000)
-    },
     contextmenuEvent (arg) {
       if (arg === 1) {
-        this.$store.commit('addChart', [{
-          index: this.random(),
-          name: '📊',
-          type: 'ybar',
-          isedit: true,
-          outline: [300, 300, 50, 50],
-          data: [['食物', '🍕', '🍔', '🍟', '🌭'], ['数量', 35, 54, 13, 60]]
-        }])
+        // this.$store.commit('addChart', [this.example[Math.floor(Math.random() * 4)]])
+        this.newCharts = true
       }
     },
     dashboard (arg) {
@@ -78,31 +77,9 @@ export default {
     this.contextmenuShow = false
     this.$nextTick(() => {
       let that = this
-      this.$store.commit('addChart', [{
-        index: this.random(),
-        name: '🍕',
-        type: 'pie',
-        outline: [300, 300],
-        data: [['🍕', '🍔', '🍟', '🌭'], [35, 54, 13, 60]]
-      },
-      {
-        index: this.random(),
-        name: '📈',
-        type: 'line',
-        isedit: true,
-        outline: [300, 330],
-        data: [['食物', '🍕', '🍔', '🍟', '🌭'], ['数量', 35, 54, 13, 60]]
-      },
-      {
-        index: this.random(),
-        name: '📊',
-        type: 'bar',
-        outline: ['50%', '300px'],
-        data: [['食物', '🍕', '🍔', '🍟', '🌭'], ['数量', 35, 54, 13, 60]]
-      }])
-
+      // this.$store.commit('addChart', this.example)
       window.addEventListener('contextmenu', function (e) {
-        // console.log(e)
+        console.log(e)
         if (that.contextmenuShow) {
           // 阻止在右键菜单上右键换出原来的右键菜单
           e.preventDefault()

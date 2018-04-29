@@ -32,7 +32,6 @@ export default {
   },
   data () {
     return {
-      el: null
     }
   },
   methods: {
@@ -52,8 +51,6 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.el = this.$el
-      console.log(this.el)
     })
   }
 }
