@@ -19,6 +19,10 @@ export default {
     mdiv
   },
   props: {
+    index: {
+      type: Number,
+      required: true
+    },
     // 传入mdiv
     name: {
       type: String,
