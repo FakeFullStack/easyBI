@@ -23,7 +23,11 @@ export default {
   },
   methods: {
     add (arg) {
-      this.$store.commit('addChart', [arg])
+      let chart = {}
+      Object.assign(chart, arg)
+      // create the random index
+      chart.index = newcharts.randomIndex()
+      this.$store.commit('addChart', [chart])
       this.$emit('addChart')
     }
   },

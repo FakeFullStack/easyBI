@@ -3,7 +3,7 @@ const line = require('../../assets/newChartsImg/line.png')
 const bar = require('../../assets/newChartsImg/bar.png')
 const ybar = require('../../assets/newChartsImg/ybar.png')
 
-function random () {
+function randomIndex () {
   let d = new Date()
   return d.getTime() + '.' + Math.floor(Math.random() * 1000)
 }
@@ -14,7 +14,7 @@ function newCharts () {
       label: '饼图',
       url: pie,
       cfg: {
-        index: random(),
+        index: null,
         name: '🍕',
         type: 'pie',
         isedit: true,
@@ -26,7 +26,7 @@ function newCharts () {
       label: '折线图',
       url: line,
       cfg: {
-        index: random(),
+        index: null,
         name: '📈',
         type: 'line',
         isedit: true,
@@ -38,7 +38,7 @@ function newCharts () {
       label: '柱状图',
       url: bar,
       cfg: {
-        index: random(),
+        index: null,
         name: '📊',
         type: 'bar',
         isedit: true,
@@ -50,7 +50,7 @@ function newCharts () {
       label: '柱状图',
       url: ybar,
       cfg: {
-        index: random(),
+        index: null,
         name: '📊',
         type: 'ybar',
         isedit: true,
@@ -61,4 +61,4 @@ function newCharts () {
   ]
 }
 
-export default { newCharts }
+export default { newCharts, randomIndex }
