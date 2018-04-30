@@ -284,6 +284,7 @@ export default {
     box-shadow: 2px 2px 6px #646464;
     user-select: none;
     margin: 0 5px 5px 0;
+    box-sizing: border-box;
   }
 
   .head {
