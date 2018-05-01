@@ -42,6 +42,7 @@ export default {
   .newcharts {
     position: relative;
     overflow: auto;
+    user-select: none;
     /* height: 100%;
     width: 100%; */
   }
