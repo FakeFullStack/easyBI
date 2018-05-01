@@ -60,7 +60,7 @@ export default {
   .dashboard {
     position: relative;
     /* background: rebeccapurple; */
-    height: 100%;
+    height: calc(100% - 5px);
     overflow-x: hidden;
     overflow-y: auto;
     padding: 5px 5px 0 5px;

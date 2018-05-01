@@ -17,7 +17,7 @@ function newCharts () {
         index: null,
         name: '🍕',
         type: 'pie',
-        isedit: true,
+        // isedit: true,
         outline: [0, 0],
         data: [['🍕', '🍔', '🍟', '🌭'], [35, 54, 13, 60]]
       }

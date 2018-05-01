@@ -1,5 +1,5 @@
 <template>
-  <div class="home" @click="contextmenuShow=false">
+  <div class="home" @click="homeHandler">
     <div style="height: 30px;"></div>
     <el-tabs v-model="activeTab" type="border-card" tabPosition="left" style="height: calc(100% - 32px);">
       <el-tab-pane name="dashboard">
@@ -10,6 +10,7 @@
           <el-dialog title="新增图表" :visible.sync="newCharts" width="80%">
             <newCharts @addChart="newCharts=false"></newCharts>
           </el-dialog>
+          <chartsAside :show="aside"></chartsAside>
         <!-- <visualization class="container"
         type="pie" vstyle="height: 200px" :data="[['测试', '一下'], [12, 33]]">
         </visualization> -->
@@ -23,7 +24,8 @@
 
 <script>
 import dashboard from '../components/dashboard/dashboard'
-import newCharts from '../page/newCharts'
+import newCharts from './newCharts'
+import chartsAside from './chartsaside'
 
 import mcontextmenu from '../components/contextmenu/mcontextmenu'
 
@@ -31,6 +33,7 @@ export default {
   components: {
     dashboard,
     newCharts,
+    chartsAside,
     mcontextmenu
   },
   data () {
@@ -38,6 +41,8 @@ export default {
       activeTab: 'dashboard',
 
       newCharts: false,
+
+      aside: false,
 
       menus: [
         {label: '增加图表', FontAwesomeName: 'plus-circle', event: 1},
@@ -47,7 +52,7 @@ export default {
       ],
       menuX: 0,
       menuY: 0,
-      contextmenuShow: true,
+      contextmenuShow: false,
       container: null,
 
       example: []
@@ -65,7 +70,16 @@ export default {
         this.$store.commit('removeChart', {
           index: arg[1]
         })
+      } else if (arg[0] === 'mclick') {
+        this.aside = true
       }
+    },
+    homeHandler (e) {
+      // console.log(e)
+      if (e.target.className === 'dashboard') {
+        this.aside = false
+      }
+      this.contextmenuShow = false
     }
   },
   computed: {
@@ -79,7 +93,7 @@ export default {
       let that = this
       // this.$store.commit('addChart', this.example)
       window.addEventListener('contextmenu', function (e) {
-        console.log(e)
+        // console.log(e)
         if (that.contextmenuShow) {
           // 阻止在右键菜单上右键换出原来的右键菜单
           e.preventDefault()
@@ -107,7 +121,6 @@ export default {
     position: relative;
     height: 100%;
   }
-
   /* .contextmenu {
     position: absolute;
     top: 100px;
