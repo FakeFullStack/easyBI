@@ -3,7 +3,8 @@
 #app .el-tabs--left .el-tabs__content {
   height: calc(100% - 10px);
   padding: 5px;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* 标签在右 */
@@ -15,4 +16,18 @@
 
 #app .el-tab-pane {
   height: 100%;
+}
+
+/* scollape */
+#app .el-collapse-item__content {
+  padding-bottom: 0px;
+}
+
+#app .el-collapse-item__header {
+  height: 40px;
+  line-height: 40px;
+}
+
+#app .el-collapse-item__arrow {
+  line-height: 40px;
 }
